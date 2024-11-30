@@ -1,0 +1,11 @@
+menuconfig DDRAIG
+	bool "Y Ddraig-68k board support."
+	depends on M68000
+	help
+	  Support for the Y Ddraig 680x0 board.
+
+menuconfig DDRAIG_10
+	bool "Y Dddraig board support."
+	depends on DDRAIG
+	help
+	  Support for the Y Ddraig board.

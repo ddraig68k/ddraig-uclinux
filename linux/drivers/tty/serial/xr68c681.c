@@ -31,7 +31,7 @@
 
 #include <asm/io.h>
 #include <asm/irq.h>
-#include <asm/mackerel.h>
+#include <asm/ddraig.h>
 
 #define DRIVER_NAME "xr68c681-serial"
 #define XR68C681_SERIAL_DEV_NAME "ttyS"
@@ -168,22 +168,14 @@ static int xr68c681_startup(struct uart_port *port)
 
 	MEM(DUART1_IVR) = 64 + IRQ_NUM_DUART; // Interrupt base register
 
-#ifdef CONFIG_MACKEREL_08
 	MEM(DUART1_IMR) = DUART_INTR_COUNTER; // Disable serial interrupts, leave counter enabled
-#elif CONFIG_MACKEREL_10
-	MEM(DUART1_IMR) = 0; // Disable all DUART interrupts
-#endif
 
 	if (request_irq(port->irq, xr68c681_interrupt, 0, "XR68C681UART", port))
 		printk(KERN_ERR "XR68C681UART: unable to attach XR68C681UART %d "
 						"interrupt vector=%d\n",
 			   port->line, port->irq);
 
-#ifdef CONFIG_MACKEREL_08
 	MEM(DUART1_IMR) = DUART_INTR_COUNTER | DUART_INTR_RXRDY; // Enable Rx interrupts, leave counter enabled
-#elif CONFIG_MACKEREL_10
-	MEM(DUART1_IMR) = DUART_INTR_RXRDY; // Enable Rx interrupts
-#endif
 
 	spin_unlock_irqrestore(&port->lock, flags);
 

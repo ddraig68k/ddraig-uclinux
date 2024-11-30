@@ -17,4 +17,6 @@ obj-$(CONFIG_ROM)	+= romvec.o
 
 obj-${CONFIG_MACKEREL} += entry.o mackerel/config.o mackerel/mackerel.o mackerel/ints.o
 
+obj-${CONFIG_DDRAIG} += entry.o ddraig/config.o ddraig/ddraig.o ddraig/ints.o
+
 extra-y 		:= head.o
